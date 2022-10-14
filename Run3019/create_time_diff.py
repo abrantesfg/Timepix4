@@ -1,16 +1,22 @@
 import numpy as np
 import math
+from scipy.stats import norm
+import matplotlib.mlab as mlab
+import matplotlib.pyplot as plt
 
-arch = "t1_times.txt"
-arch2 = "t2_times.txt"
-dataOutput = open("time_diff.txt","w+")
+arch = "signal_width/t1_times.txt"
+arch2 = "signal_width/t2_times.txt"
+dataOutput = open("signal_width/time_diff.txt","w+")
 
 t1 = []
 t2 = []
+diff = []
 
 for item in open(arch,'r'):
     item = item.strip()
     t1.append(float(item))
+
+
 
 for item in open(arch2,'r'):
     item = item.strip()

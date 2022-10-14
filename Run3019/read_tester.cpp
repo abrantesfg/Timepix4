@@ -100,7 +100,7 @@ int test(){
 		        fpga_current_time = (extended_cnt)*1024*25;
 
 		        if (prev_time>fpga_current_time){
-		            printf("-----------------------------FLAG--------------------------------\n");
+		            //printf("-----------------------------FLAG--------------------------------\n");
 		            real_time = real_time + pow(2,28)*1024*25;
 		            fpga_count++;
 		            //printf("fpga, ch %u: %u nanoseconds\t %u\n", c2, (extended_cnt)*1024*25, extended_cnt);
@@ -127,10 +127,10 @@ int test(){
 		        if (c2==4){
 		            if (edge_bit==1){
 			            t1_vect.push_back(tdc_cnt/1000);
-			            printf("RISING EDGE");
+			            //printf("RISING EDGE\n");
 		            }else{
 			            t2_vect.push_back(tdc_cnt/1000);
-			            printf("FALLING EDGE");
+			            //printf("FALLING EDGE\n");
                     }
 		        }	
 
@@ -243,24 +243,24 @@ int test(){
  
    h_ch->Draw("b");
 
-   cb->SaveAs("Counting_channels.pdf");
+   cb->SaveAs("ch_counts/Counting_channels.pdf");
 
    // Saving time stamps for Ch0,1,2,3,4
 
    ofstream f_ch0;
-   f_ch0.open ("channel0_times.txt");
+   f_ch0.open ("ch_counts/channel0_times.txt");
 
    ofstream f_ch1;
-   f_ch1.open ("channel1_times.txt");
+   f_ch1.open ("ch_counts/channel1_times.txt");
 
    ofstream f_ch2;
-   f_ch2.open ("channel2_times.txt");
+   f_ch2.open ("ch_counts/channel2_times.txt");
 
    ofstream f_ch3;
-   f_ch3.open ("channel3_times.txt");
+   f_ch3.open ("ch_counts/channel3_times.txt");
 
    ofstream f_ch4;
-   f_ch4.open ("channel4_times.txt");
+   f_ch4.open ("ch_counts/channel4_times.txt");
 
    for (double x : ch0_vect){
         f_ch0 << x << endl;
@@ -291,10 +291,10 @@ int test(){
    // Saving rising and falling edges of MCP
 
    ofstream f_t1;
-   f_t1.open ("t1_times.txt");
+   f_t1.open ("signal_width/t1_times.txt");
 
    ofstream f_t2;
-   f_t2.open ("t2_times.txt");
+   f_t2.open ("signal_width/t2_times.txt");
 
    for (float x : t1_vect){
         f_t1 << x << endl;
@@ -310,16 +310,16 @@ int test(){
    // Saving Scintillators and MCP timestamps
 
    ofstream f_t_scint1;
-   f_t_scint1.open ("t_scint1.txt");
+   f_t_scint1.open ("correlation/t_scint1.txt");
 
    ofstream f_t_scint2;
-   f_t_scint2.open ("t_scint2.txt");
+   f_t_scint2.open ("correlation/t_scint2.txt");
 
    ofstream f_t_scint3;
-   f_t_scint3.open ("t_scint3.txt");
+   f_t_scint3.open ("correlation/t_scint3.txt");
 
    ofstream f_t_mcp;
-   f_t_mcp.open ("t_mcp.txt");
+   f_t_mcp.open ("correlation/t_mcp.txt");
 
    for (float x : t_scint1_vect){
         f_t_scint1 << x << endl;
