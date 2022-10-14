@@ -50,6 +50,8 @@ int test(){
     vector<double> ch4_vect;
     vector<double> t1_vect;
     vector<double> t2_vect;
+    vector<double> t_scint_vect;
+    vector<double> t_mcp_vect;
 
     FILE *fp = fopen("Run3019.dat", "r");
 
@@ -132,10 +134,12 @@ int test(){
                 if (c2==1 || c2==2 || c2==3 ){
 
                     scint_current = tdc_cnt/1000;
+                    t_scint_vect.push_back(scint_current);
                 }	
 
                 if(c2==4){
                     mcp_current = tdc_cnt/1000;
+                    t_mcp_vect.push_back(mcp_current);
                 }
 
                 scint_prev = scint_current;
@@ -250,6 +254,12 @@ int test(){
    ofstream f_t2;
    f_t2.open ("t2_times.txt");
 
+   ofstream f_t_scint;
+   f_t_scint.open ("t_scint.txt");
+
+   ofstream f_t_mcp;
+   f_t_mcp.open ("t_mcp.txt");
+
 
    for (double x : ch0_vect){
         f_ch0 << x << endl;
@@ -285,6 +295,18 @@ int test(){
         f_t2 << x << endl;
    }
    f_t2.close();
+
+   for (float x : t_scint_vect){
+        f_t_scint << x << endl;
+   }
+   f_t_scint.close();
+
+   for (float x : t_mcp_vect){
+        f_t_mcp << x << endl;
+   }
+   f_t_mcp.close();
+
+
 
 //        c ut << x << " ";
 
