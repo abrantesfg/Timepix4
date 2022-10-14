@@ -34,7 +34,7 @@ int test(){
     double scint_prev = 0.0;
     double scint_current = 0.0;
     double mcp_prev = 0.0;
-    double mcp_current = 0.0
+    double mcp_current = 0.0;
 
     int fpga_count = 0;
     int ch0_count = 0;
@@ -121,6 +121,7 @@ int test(){
 
                 prev_time = fpga_current_time;
 
+                // Calculate signal width of MCP
 		        if (c2==4){
 		            if (edge_bit==1){
 			            t1_vect.push_back(tdc_cnt/1000);
@@ -131,7 +132,8 @@ int test(){
                     }
 		        }	
 
-                if (c2==1 || c2==2 || c2==3 ){
+                // Calculate correlation between scintillators and MCP
+                if (c2==1){
 
                     scint_current = tdc_cnt/1000;
                     t_scint_vect.push_back(scint_current);
@@ -145,6 +147,7 @@ int test(){
                 scint_prev = scint_current;
                 mcp_prev = mcp_current;
 
+                // Counting each channel
                 if (c2 == 0){
                    ch0_count++;
                    ch0_vect.push_back(real_time);
@@ -231,7 +234,7 @@ int test(){
 
    cb->SaveAs("Counting_channels.pdf");
 
-   // Saving time stamps for Ch1,2,3
+   // Saving time stamps for Ch0,1,2,3,4
 
    ofstream f_ch0;
    f_ch0.open ("channel0_times.txt");
@@ -247,19 +250,6 @@ int test(){
 
    ofstream f_ch4;
    f_ch4.open ("channel4_times.txt");
-
-   ofstream f_t1;
-   f_t1.open ("t1_times.txt");
-
-   ofstream f_t2;
-   f_t2.open ("t2_times.txt");
-
-   ofstream f_t_scint;
-   f_t_scint.open ("t_scint.txt");
-
-   ofstream f_t_mcp;
-   f_t_mcp.open ("t_mcp.txt");
-
 
    for (double x : ch0_vect){
         f_ch0 << x << endl;
@@ -286,6 +276,15 @@ int test(){
    }
    f_ch4.close();
 
+
+   // Saving rising and falling edges of MCP
+
+   ofstream f_t1;
+   f_t1.open ("t1_times.txt");
+
+   ofstream f_t2;
+   f_t2.open ("t2_times.txt");
+
    for (float x : t1_vect){
         f_t1 << x << endl;
    }
@@ -299,19 +298,21 @@ int test(){
    for (float x : t_scint_vect){
         f_t_scint << x << endl;
    }
+
+   // Saving Scintillators and MCP timestamps
+
+   ofstream f_t_scint;
+   f_t_scint.open ("t_scint.txt");
+
+   ofstream f_t_mcp;
+   f_t_mcp.open ("t_mcp.txt");
+
    f_t_scint.close();
 
    for (float x : t_mcp_vect){
         f_t_mcp << x << endl;
    }
    f_t_mcp.close();
-
-
-
-//        c ut << x << " ";
-
-
-
-   
+ 
    return 1;
 }
