@@ -31,10 +31,10 @@ int test(){
     double t0 = 0.0;
 
     // correlation
-    double scint_prev = 0.0;
-    double scint_current = 0.0;
-    double mcp_prev = 0.0;
-    double mcp_current = 0.0;
+    double t_scint1;
+    double t_scint2;
+    double t_scint3;
+    double t_mcp;
 
     int fpga_count = 0;
     int ch0_count = 0;
@@ -50,7 +50,9 @@ int test(){
     vector<double> ch4_vect;
     vector<double> t1_vect;
     vector<double> t2_vect;
-    vector<double> t_scint_vect;
+    vector<double> t_scint1_vect;
+    vector<double> t_scint2_vect;
+    vector<double> t_scint3_vect;        
     vector<double> t_mcp_vect;
 
     FILE *fp = fopen("Run3019.dat", "r");
@@ -135,17 +137,26 @@ int test(){
                 // Calculate correlation between scintillators and MCP
                 if (c2==1){
 
-                    scint_current = tdc_cnt/1000;
-                    t_scint_vect.push_back(scint_current);
+                    t_scint1 = tdc_cnt/1000;
+                    t_scint1_vect.push_back(t_scint1);
+                }	
+
+                if (c2==2){
+
+                    t_scint2 = tdc_cnt/1000;
+                    t_scint2_vect.push_back(t_scint2);
+                }	
+
+                if (c2==3){
+
+                    t_scint3 = tdc_cnt/1000;
+                    t_scint3_vect.push_back(t_scint3);
                 }	
 
                 if(c2==4){
-                    mcp_current = tdc_cnt/1000;
-                    t_mcp_vect.push_back(mcp_current);
+                    t_mcp = tdc_cnt/1000;
+                    t_mcp_vect.push_back(t_mcp);
                 }
-
-                scint_prev = scint_current;
-                mcp_prev = mcp_current;
 
                 // Counting each channel
                 if (c2 == 0){
@@ -295,19 +306,36 @@ int test(){
    }
    f_t2.close();
 
-   for (float x : t_scint_vect){
-        f_t_scint << x << endl;
-   }
 
    // Saving Scintillators and MCP timestamps
 
-   ofstream f_t_scint;
-   f_t_scint.open ("t_scint.txt");
+   ofstream f_t_scint1;
+   f_t_scint1.open ("t_scint1.txt");
+
+   ofstream f_t_scint2;
+   f_t_scint2.open ("t_scint2.txt");
+
+   ofstream f_t_scint3;
+   f_t_scint3.open ("t_scint3.txt");
 
    ofstream f_t_mcp;
    f_t_mcp.open ("t_mcp.txt");
 
-   f_t_scint.close();
+   for (float x : t_scint1_vect){
+        f_t_scint1 << x << endl;
+   }
+   f_t_scint1.close();
+
+   for (float x : t_scint2_vect){
+        f_t_scint2 << x << endl;
+   }
+   f_t_scint2.close();
+
+
+   for (float x : t_scint3_vect){
+        f_t_scint3 << x << endl;
+   }
+   f_t_scint3.close();
 
    for (float x : t_mcp_vect){
         f_t_mcp << x << endl;
